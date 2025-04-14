@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace TimsBakery.forms
@@ -33,6 +34,16 @@ namespace TimsBakery.forms
 
       private void InitializeComponent()
       {
+
+         //place this at beginning of initialized component
+         this.rtbPreview = new RichTextBox();
+         this.rtbPreview.Location = new Point(380, 65);
+         this.rtbPreview.Size = new Size(350, 300);
+         this.rtbPreview.ReadOnly = true;
+         this.Controls.Add(this.rtbPreview);
+         this.rtbPreview.BackColor = Color.White; // ← Add this line
+
+
          this.label1 = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
          this.panel2 = new System.Windows.Forms.Panel();
@@ -127,7 +138,25 @@ namespace TimsBakery.forms
          this.panel2.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
+
+         // place this after form configs
+         this.txtFirstName.TextChanged += (s, e) => UpdatePreview();
+         this.txtLastName.TextChanged += (s, e) => UpdatePreview();
+         this.txtEmail.TextChanged += (s, e) => UpdatePreview();
+
+
       }
+
+      private void UpdatePreview()
+      {
+         rtbPreview.Text =
+            $"Name: {txtFirstName.Text} {txtLastName.Text}\n" +
+            $"Email: {txtEmail.Text}\n" +
+         $"Phone: {txtPhone.Text}\n" +
+            $"Address: {txtAddress.Text}, {txtCity.Text}, {cmbState.Text} {txtZip.Text}";
+      }
+
+
 
       // Shared utility method (same as before)
       private void AddLabeledControl(Panel panel, string labelText, Control control, int x, ref int y, int spacing)
@@ -166,7 +195,7 @@ namespace TimsBakery.forms
       private System.Windows.Forms.TextBox txtZip;
       private System.Windows.Forms.TextBox txtPhone;
       private System.Windows.Forms.TextBox txtEmail;
-
+      private System.Windows.Forms.RichTextBox rtbPreview;
    }
 
 }

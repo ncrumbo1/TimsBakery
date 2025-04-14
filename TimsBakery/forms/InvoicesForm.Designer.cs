@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace TimsBakery.forms
@@ -33,6 +34,16 @@ namespace TimsBakery.forms
 
       private void InitializeComponent()
       {
+
+         //place this at beginning of initialized component
+         this.rtbPreview = new RichTextBox();
+         this.rtbPreview.Location = new Point(380, 65);
+         this.rtbPreview.Size = new Size(350, 300);
+         this.rtbPreview.ReadOnly = true;
+         this.Controls.Add(this.rtbPreview);
+         this.rtbPreview.BackColor = Color.White; // ← Add this line
+
+
          this.label1 = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
          this.panel2 = new System.Windows.Forms.Panel();
@@ -117,6 +128,22 @@ namespace TimsBakery.forms
          this.panel2.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
+
+         // place this after form configs
+         this.cmbOrderID.TextChanged += (s, e) => UpdatePreview();
+         this.cmbProductID.TextChanged += (s, e) => UpdatePreview();
+         this.txtQuantity.TextChanged += (s, e) => UpdatePreview();
+         this.txtUnitPrice.TextChanged += (s, e) => UpdatePreview();
+
+      }
+
+      private void UpdatePreview()
+      {
+         rtbPreview.Text =
+            $"Order ID: {cmbOrderID.Text}\n" +
+            $"Product ID: {cmbProductID.Text}\n" +
+            $"Quantity: {txtQuantity.Text}\n" +
+            $"Unit Price: {txtUnitPrice.Text}";
       }
 
       // Shared alignment method
@@ -150,6 +177,7 @@ namespace TimsBakery.forms
       private System.Windows.Forms.ComboBox cmbProductID;
       private System.Windows.Forms.TextBox txtQuantity;
       private System.Windows.Forms.TextBox txtUnitPrice;
+      private System.Windows.Forms.RichTextBox rtbPreview;
    }
 
 }

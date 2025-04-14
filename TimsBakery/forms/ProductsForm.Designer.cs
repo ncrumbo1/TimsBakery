@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace TimsBakery.forms
@@ -33,6 +34,16 @@ namespace TimsBakery.forms
 
       private void InitializeComponent()
       {
+
+         //place this at beginning of initialized component
+         this.rtbPreview = new RichTextBox();
+         this.rtbPreview.Location = new Point(380, 65);
+         this.rtbPreview.Size = new Size(350, 300);
+         this.rtbPreview.ReadOnly = true;
+         this.Controls.Add(this.rtbPreview);
+         this.rtbPreview.BackColor = Color.White; // ← Add this line
+
+
          this.label1 = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
          this.panel2 = new System.Windows.Forms.Panel();
@@ -77,8 +88,8 @@ namespace TimsBakery.forms
          lblDescription.Location = new Point(10, y);
          lblDescription.Width = 120;
          txtDescription.Location = new Point(140, y);
-         txtDescription.Width = 500;
-         txtDescription.Height = 80;
+         txtDescription.Width = 200;
+         txtDescription.Height = 200;
          txtDescription.Multiline = true;
 
          panel1.Controls.Add(lblDescription);
@@ -130,6 +141,22 @@ namespace TimsBakery.forms
          this.panel2.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
+
+         // place this after form configs
+         this.txtProductName.TextChanged += (s, e) => UpdatePreview();
+         this.cmbCategory.TextChanged += (s, e) => UpdatePreview();
+         this.txtPrice.TextChanged += (s, e) => UpdatePreview();
+         this.txtDescription.TextChanged += (s, e) => UpdatePreview();
+
+      }
+
+      private void UpdatePreview()
+      {
+         rtbPreview.Text =
+            $"Product Name: {txtProductName.Text}\n" +
+            $"Category: {cmbCategory.Text}\n" +
+            $"Price: {txtPrice.Text}\n" +
+            $"Description: {txtDescription.Text}";
       }
 
       // Shared method for alignment
@@ -149,7 +176,6 @@ namespace TimsBakery.forms
          y += spacing;
       }
 
-    
 
       #endregion
 
@@ -164,6 +190,7 @@ namespace TimsBakery.forms
       private System.Windows.Forms.ComboBox cmbCategory;
       private System.Windows.Forms.TextBox txtPrice;
       private System.Windows.Forms.TextBox txtDescription;
+      private System.Windows.Forms.RichTextBox rtbPreview;
    }
 
 }
