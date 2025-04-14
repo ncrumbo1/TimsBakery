@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace TimsBakery.forms
@@ -34,6 +35,15 @@ namespace TimsBakery.forms
 
       private void InitializeComponent()
       {
+
+         //place this at beginning of initialized component
+         this.rtbPreview = new RichTextBox();
+         this.rtbPreview.Location = new Point(380, 65);
+         this.rtbPreview.Size = new Size(350, 300);
+         this.rtbPreview.ReadOnly = true;
+         this.Controls.Add(this.rtbPreview);
+         this.rtbPreview.BackColor = Color.White; // ← Add this line
+
          this.label1 = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
          this.panel2 = new System.Windows.Forms.Panel();
@@ -118,7 +128,24 @@ namespace TimsBakery.forms
          this.panel2.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
+
+         // place this after form configs
+         this.cmbProductID.TextChanged += (s, e) => UpdatePreview();
+         this.cmbStoreID.TextChanged += (s, e) => UpdatePreview();
+         this.txtQuantity.TextChanged += (s, e) => UpdatePreview();
+         this.txtInventoryUpdate.TextChanged += (s, e) => UpdatePreview();
+
       }
+
+      private void UpdatePreview()
+      {
+         rtbPreview.Text =
+            $"Product ID: {cmbProductID.Text}\n" +
+            $"Store ID: {cmbStoreID.Text}\n" +
+            $"Quantity: {txtQuantity.Text}\n" +
+            $"Last Updated: {txtInventoryUpdate.Text}";
+      }
+
 
       // Shared alignment method
       private void AddLabeledControl(Panel panel, string labelText, Control control, int x, ref int y, int spacing)
@@ -137,8 +164,6 @@ namespace TimsBakery.forms
          y += spacing;
       }
 
-
-
       #endregion
 
       private System.Windows.Forms.Label label1;
@@ -152,7 +177,7 @@ namespace TimsBakery.forms
       private System.Windows.Forms.ComboBox cmbStoreID;
       private System.Windows.Forms.TextBox txtQuantity;
       private System.Windows.Forms.TextBox txtInventoryUpdate;
-
+      private System.Windows.Forms.RichTextBox rtbPreview;
 
    }
 
