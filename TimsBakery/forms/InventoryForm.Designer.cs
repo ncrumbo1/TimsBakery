@@ -1,20 +1,16 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+using TimsBakery.modules;
 
 namespace TimsBakery.forms
 {
    partial class InventoryForm
    {
-      /// <summary>
-      /// Required designer variable.
-      /// </summary>
+
       private System.ComponentModel.IContainer components = null;
 
-      /// <summary>
-      /// Clean up any resources being used.
-      /// </summary>
-      /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
       protected override void Dispose(bool disposing)
       {
          if (disposing && (components != null))
@@ -25,13 +21,6 @@ namespace TimsBakery.forms
       }
 
       #region Windows Form Designer generated code
-
-      /// <summary>
-      /// Required method for Designer support - do not modify
-      /// the contents of this method with the code editor.
-      /// </summary>
-      /// 
-
 
       private void InitializeComponent()
       {
@@ -48,11 +37,11 @@ namespace TimsBakery.forms
          this.panel1 = new System.Windows.Forms.Panel();
          this.panel2 = new System.Windows.Forms.Panel();
          this.button1 = new System.Windows.Forms.Button();
-         this.button2 = new System.Windows.Forms.Button();
+         //this.button2 = new System.Windows.Forms.Button();
          this.button3 = new System.Windows.Forms.Button();
 
-         this.cmbProductID = new System.Windows.Forms.ComboBox();
-         this.cmbStoreID = new System.Windows.Forms.ComboBox();
+         this.txtProductID = new System.Windows.Forms.TextBox();
+         this.txtStoreID = new System.Windows.Forms.TextBox();
          this.txtQuantity = new System.Windows.Forms.TextBox();
          this.txtInventoryUpdate = new System.Windows.Forms.TextBox();
 
@@ -78,15 +67,15 @@ namespace TimsBakery.forms
          int y = 10;
          int spacing = 35;
 
-         AddLabeledControl(panel1, "Product ID:", cmbProductID, 10, ref y, spacing);
-         AddLabeledControl(panel1, "Store ID:", cmbStoreID, 10, ref y, spacing);
+         AddLabeledControl(panel1, "Product ID:", txtProductID, 10, ref y, spacing);
+         AddLabeledControl(panel1, "Store ID:", txtStoreID, 10, ref y, spacing);
          AddLabeledControl(panel1, "Quantity:", txtQuantity, 10, ref y, spacing);
          AddLabeledControl(panel1, "Last Updated:", txtInventoryUpdate, 10, ref y, spacing);
 
          // panel2 (Buttons)
          this.panel2.Controls.Add(this.button3);
          this.panel2.Controls.Add(this.button1);
-         this.panel2.Controls.Add(this.button2);
+         //this.panel2.Controls.Add(this.button2);
          this.panel2.Location = new System.Drawing.Point(12, 409);
          this.panel2.Name = "panel2";
          this.panel2.Size = new System.Drawing.Size(776, 29);
@@ -97,24 +86,26 @@ namespace TimsBakery.forms
          this.button1.Name = "button1";
          this.button1.Size = new System.Drawing.Size(75, 23);
          this.button1.TabIndex = 1;
-         this.button1.Text = "SAVE";
+         this.button1.Text = "SUBMIT";
          this.button1.UseVisualStyleBackColor = true;
+         this.button1.Click += new EventHandler(this.btnSubmit_Click);
 
-         // button2 - CANCEL
-         this.button2.Location = new System.Drawing.Point(350, 3);
-         this.button2.Name = "button2";
-         this.button2.Size = new System.Drawing.Size(75, 23);
-         this.button2.TabIndex = 4;
-         this.button2.Text = "CANCEL";
-         this.button2.UseVisualStyleBackColor = true;
+         //// button2 - CANCEL
+         //this.button2.Location = new System.Drawing.Point(350, 3);
+         //this.button2.Name = "button2";
+         //this.button2.Size = new System.Drawing.Size(75, 23);
+         //this.button2.TabIndex = 4;
+         //this.button2.Text = "CANCEL";
+         //this.button2.UseVisualStyleBackColor = true;
 
          // button3 - DELETE
-         this.button3.Location = new System.Drawing.Point(497, 3);
+         this.button3.Location = new System.Drawing.Point(320, 3);
          this.button3.Name = "button3";
          this.button3.Size = new System.Drawing.Size(75, 23);
          this.button3.TabIndex = 5;
-         this.button3.Text = "DELETE";
+         this.button3.Text = "CLEAR";
          this.button3.UseVisualStyleBackColor = true;
+         this.button3.Click += new EventHandler(this.btnClear_Click);
 
          // InventoryForm
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -123,6 +114,7 @@ namespace TimsBakery.forms
          this.Controls.Add(this.panel2);
          this.Controls.Add(this.panel1);
          this.Controls.Add(this.label1);
+         this.BackColor = System.Drawing.Color.FromArgb(200, 230, 255);
          this.Name = "InventoryForm";
          this.Text = "InventoryForm";
          this.panel2.ResumeLayout(false);
@@ -130,18 +122,33 @@ namespace TimsBakery.forms
          this.PerformLayout();
 
          // place this after form configs
-         this.cmbProductID.TextChanged += (s, e) => UpdatePreview();
-         this.cmbStoreID.TextChanged += (s, e) => UpdatePreview();
+         this.txtProductID.TextChanged += (s, e) => UpdatePreview();
+         this.txtStoreID.TextChanged += (s, e) => UpdatePreview();
          this.txtQuantity.TextChanged += (s, e) => UpdatePreview();
          this.txtInventoryUpdate.TextChanged += (s, e) => UpdatePreview();
 
       }
 
+
+      private void btnSubmit_Click(object sender, EventArgs e)
+      {
+         if (!FormValidator.ValidateRequiredFields(panel1))
+            return;
+
+      }
+
+      private void btnClear_Click(object sender, EventArgs e)
+      {
+         FormClear.ResetFields(panel1);  // or 'this' to clear the whole form
+         MessageBox.Show("Form cleared!", "Reset", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      }
+
+
       private void UpdatePreview()
       {
          rtbPreview.Text =
-            $"Product ID: {cmbProductID.Text}\n" +
-            $"Store ID: {cmbStoreID.Text}\n" +
+            $"Product ID: {txtProductID.Text}\n" +
+            $"Store ID: {txtStoreID.Text}\n" +
             $"Quantity: {txtQuantity.Text}\n" +
             $"Last Updated: {txtInventoryUpdate.Text}";
       }
@@ -170,11 +177,11 @@ namespace TimsBakery.forms
       private System.Windows.Forms.Button button1;
       private System.Windows.Forms.Panel panel1;
       private System.Windows.Forms.Panel panel2;
-      private System.Windows.Forms.Button button2;
+      //private System.Windows.Forms.Button button2;
       private System.Windows.Forms.Button button3;
 
-      private System.Windows.Forms.ComboBox cmbProductID;
-      private System.Windows.Forms.ComboBox cmbStoreID;
+      private System.Windows.Forms.TextBox txtProductID;
+      private System.Windows.Forms.TextBox txtStoreID;
       private System.Windows.Forms.TextBox txtQuantity;
       private System.Windows.Forms.TextBox txtInventoryUpdate;
       private System.Windows.Forms.RichTextBox rtbPreview;
