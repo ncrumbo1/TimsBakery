@@ -20,6 +20,18 @@ namespace TimsBakery
       {
          InitializeComponent(); // Will now work correctly
          InitializeLayout();
+         // Load Register Form by default
+         LoadForm(new RegisterForm());
+
+      }
+      private void LoadForm(Form form)
+      {
+         panelMainDisplay.Controls.Clear();
+         form.TopLevel = false;
+         form.FormBorderStyle = FormBorderStyle.None;
+         form.Dock = DockStyle.Fill;
+         panelMainDisplay.Controls.Add(form);
+         form.Show();
       }
 
       private void InitializeLayout()
@@ -32,14 +44,15 @@ namespace TimsBakery
          panelMainDisplay = new Panel();
          panelMainDisplay.Dock = DockStyle.Left;
          panelMainDisplay.Width = 750;
-         panelMainDisplay.BackColor = Color.WhiteSmoke;
+         panelMainDisplay.BackColor = Color.FromArgb(200, 230, 255);
          this.Controls.Add(panelMainDisplay);
 
          // MENU PANEL (RIGHT SIDE)
          panelMenu = new Panel();
          panelMenu.Dock = DockStyle.Right;
          panelMenu.Width = 200;
-         panelMenu.BackColor = Color.DimGray;
+         panelMenu.BackColor = Color.FromArgb(255, 223, 186);
+
          this.Controls.Add(panelMenu);
 
          // MENU BUTTONS
@@ -52,6 +65,9 @@ namespace TimsBakery
          CreateSidebarButton("Reports", Reports_Click);
          CreateSidebarButton("Exit", Exit_Click);
       }
+
+
+
 
       private void CreateSidebarButton(string text, EventHandler onClick)
       {
