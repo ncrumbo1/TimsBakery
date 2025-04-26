@@ -1,9 +1,0 @@
-C:\Users\crumbon\source\repos\TimsBakery\bin\Debug\TimsBakery.exe.config
-C:\Users\crumbon\source\repos\TimsBakery\bin\Debug\TimsBakery.exe
-C:\Users\crumbon\source\repos\TimsBakery\bin\Debug\TimsBakery.pdb
-C:\Users\crumbon\source\repos\TimsBakery\obj\Debug\TimsBakery.csproj.AssemblyReference.cache
-C:\Users\crumbon\source\repos\TimsBakery\obj\Debug\TimsBakery.Properties.Resources.resources
-C:\Users\crumbon\source\repos\TimsBakery\obj\Debug\TimsBakery.csproj.GenerateResource.cache
-C:\Users\crumbon\source\repos\TimsBakery\obj\Debug\TimsBakery.csproj.CoreCompileInputs.cache
-C:\Users\crumbon\source\repos\TimsBakery\obj\Debug\TimsBakery.exe
-C:\Users\crumbon\source\repos\TimsBakery\obj\Debug\TimsBakery.pdb
